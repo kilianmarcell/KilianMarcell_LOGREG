@@ -9,13 +9,16 @@
 
     <EditText
         android:id="@+id/felhasznaloEditTextMain"
+        android:textSize="20sp"
         android:hint="Felhasználónév"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/jelszoEditTextMain"
+        android:textSize="20sp"
         android:hint="Jelszó"
+        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

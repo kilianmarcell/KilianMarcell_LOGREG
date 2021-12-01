@@ -44,18 +44,18 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Minden mezőt ki kell tölteni!", Toast.LENGTH_SHORT).show();
                 } else {
                     Cursor keres = adatbazis.keres(felhasznaloNev, jelszo);
-                    if (keres.getColumnCount() == 0) {
+                    if (keres.getCount() == 0) {
                         Toast.makeText(getApplicationContext(), "Rossz jelszó, vagy felhasználónév!", Toast.LENGTH_SHORT).show();
                     } else {
                         StringBuilder strB = new StringBuilder();
                         while (keres.moveToNext()) {
                             atad = strB.append(keres.getString(4)).toString();
                         }
+                        Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
+                        intent.putExtra("Teljesnev", atad);
+                        startActivity(intent);
+                        finish();
                     }
-                    Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
-                    intent.putExtra("Teljesnev", atad);
-                    startActivity(intent);
-                    finish();
                 }
             }
         });
