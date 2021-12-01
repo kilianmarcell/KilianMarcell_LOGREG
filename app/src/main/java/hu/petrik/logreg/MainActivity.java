@@ -3,15 +3,18 @@ package hu.petrik.logreg;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText felhasznaloEditTextMain, jelszoEditTextMain;
     private Button bejelentkezesButtonMain, regisztracioButtonMain;
+    private DBHelper adatbazis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,31 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        bejelentkezesButtonMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String felhasznaloNev = felhasznaloEditTextMain.getText().toString().trim();
+                String jelszo = jelszoEditTextMain.getText().toString().trim();
+
+                if (felhasznaloNev.isEmpty() || jelszo.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Minden mezőt ki kell tölteni!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Cursor keres = adatbazis.keres(felhasznaloNev, jelszo);
+                    if (keres.getColumnCount() == 0) {
+                        Toast.makeText(getApplicationContext(), "Rossz jelszó, vagy felhasználónév!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        StringBuilder strB = new StringBuilder();
+                        while (keres.moveToNext()) {
+                            strB.append(keres.getInt(4));
+                        }
+                    }
+                    Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 
     public void init() {
@@ -35,5 +63,6 @@ public class MainActivity extends AppCompatActivity {
         jelszoEditTextMain = findViewById(R.id.jelszoEditTextMain);
         bejelentkezesButtonMain = findViewById(R.id.bejelentkezesButtonMain);
         regisztracioButtonMain = findViewById(R.id.regisztracioButtonMain);
+        adatbazis = new DBHelper(this);
     }
 }
