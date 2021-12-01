@@ -20,6 +20,8 @@ public class LoggedInActivity extends AppCompatActivity {
 
         init();
 
+        teljesnevTextViewLoggedIn.setText(getIntent().getStringExtra("Teljesnev"));
+
         kijelentkezesBtnLoggedIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

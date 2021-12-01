@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String felhasznaloNev = felhasznaloEditTextMain.getText().toString().trim();
                 String jelszo = jelszoEditTextMain.getText().toString().trim();
+                String atad = "";
 
                 if (felhasznaloNev.isEmpty() || jelszo.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Minden mezőt ki kell tölteni!", Toast.LENGTH_SHORT).show();
@@ -47,10 +49,11 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         StringBuilder strB = new StringBuilder();
                         while (keres.moveToNext()) {
-                            strB.append(keres.getInt(4));
+                            atad = strB.append(keres.getString(4)).toString();
                         }
                     }
                     Intent intent = new Intent(MainActivity.this, LoggedInActivity.class);
+                    intent.putExtra("Teljesnev", atad);
                     startActivity(intent);
                     finish();
                 }
